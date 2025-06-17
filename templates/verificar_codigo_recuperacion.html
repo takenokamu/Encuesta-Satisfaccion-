@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificar Código</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            <div class="login-header">
+                <!-- Logo -->
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+                </div>
+                <h2>Verificar Código</h2>
+            </div>
+            
+            <!-- Mensajes de error -->
+            {% if error %}
+                <div class="alert alert-danger">
+                    {{ error }}
+                </div>
+            {% endif %}
+            
+            <p class="recovery-instructions">
+                Hemos enviado un código de verificación a tu correo electrónico.<br>
+                Por favor, ingrésalo a continuación:
+            </p>
+            
+            <form action="{{ url_for('verificar_codigo_recuperacion') }}" method="POST">
+                <div class="verification-code">
+                    <input type="text" name="codigo" maxlength="6" placeholder="Código de verificación" required>
+                </div>
+                
+                <button type="submit" class="btn-login">
+                    <span>Verificar Código</span>
+                    <i class="fas fa-check-circle"></i>
+                </button>
+            </form>
+            
+            <div class="register-link">
+                <p>¿No recibiste el código? <a href="{{ url_for('recuperar_contrasena') }}">Solicitar nuevamente</a></p>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .recovery-instructions {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .verification-code {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+        
+        .verification-code input {
+            text-align: center;
+            font-size: 18px;
+            letter-spacing: 8px;
+            padding: 15px;
+            border: 1px solid #e1e1e1;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .verification-code input:focus {
+            outline: none;
+            border-color: #335435;
+            box-shadow: 0 0 0 3px rgba(51, 84, 53, 0.15);
+            background-color: #fff;
+        }
+    </style>
+</body>
+</html>

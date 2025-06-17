@@ -1,0 +1,329 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Fondo con gradiente suave - Modificado para permitir scroll */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Cambiado de height: 100vh a min-height: 100vh */
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+    background-attachment: fixed; /* Para que el fondo no se desplace */
+    position: relative;
+    padding: 40px 20px; /* Aumentado el padding vertical */
+    overflow-y: auto; /* Permitir scroll vertical explícitamente */
+}
+
+/* Elementos decorativos de fondo - Fijados para que no causen problemas */
+body::before,
+body::after {
+    content: "";
+    position: fixed; /* Cambiado de absolute a fixed */
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+body::before {
+    background: rgba(51, 84, 53, 0.05);
+    top: -100px;
+    right: -100px;
+}
+
+body::after {
+    background: rgba(51, 84, 53, 0.03);
+    bottom: -100px;
+    left: -100px;
+}
+
+/* Contenedor del registro - Modificado para ser más responsive */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 550px;
+    margin: 20px 0; /* Añadido margen vertical */
+}
+
+/* Caja del registro */
+.register-box {
+    background: #fff;
+    padding: 35px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    position: relative;
+    overflow: visible; /* Cambiado de overflow: hidden a overflow: visible */
+    transition: all 0.3s ease;
+}
+
+.register-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+
+/* Encabezado del registro */
+.register-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+/* Logo */
+.logo img {
+    width: 180px;
+    height: auto;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+    transform: scale(1.05);
+}
+
+/* Título */
+h2 {
+    color: #335435;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    position: relative;
+    display: inline-block;
+}
+
+h2::after {
+    content: "";
+    position: absolute;
+    width: 40%;
+    height: 3px;
+    background: #335435;
+    bottom: -8px;
+    left: 30%;
+    border-radius: 2px;
+}
+
+/* Subtítulo */
+.subtitle {
+    color: #777;
+    font-size: 14px;
+    margin-top: 15px;
+}
+
+/* Alertas para mensajes flash */
+.alert {
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.alert-success {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: #4CAF50;
+    border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.alert-danger {
+    background-color: rgba(244, 67, 54, 0.1);
+    color: #F44336;
+    border: 1px solid rgba(244, 67, 54, 0.3);
+}
+
+/* Fila de inputs (para nombre y apellido) */
+.input-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 0;
+}
+
+.input-row .input-group {
+    flex: 1;
+}
+
+/* Grupos de input */
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+/* Iconos para los inputs */
+.input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #335435;
+    opacity: 0.7;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"] {
+    width: 100%;
+    padding: 14px 45px;
+    border: 1px solid #e1e1e1;
+    border-radius: 10px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    border-color: #335435;
+    box-shadow: 0 0 0 3px rgba(51, 84, 53, 0.15);
+    background-color: #fff;
+}
+
+/* Mostrar/ocultar contraseña */
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #335435;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.toggle-password:hover {
+    opacity: 1;
+}
+
+/* Indicador de fuerza de contraseña */
+.password-strength {
+    margin-bottom: 20px;
+}
+
+.strength-meter {
+    height: 6px;
+    background-color: #e1e1e1;
+    border-radius: 3px;
+    margin-bottom: 5px;
+    overflow: hidden;
+}
+
+.strength-bar {
+    height: 100%;
+    width: 0;
+    background-color: #e1e1e1;
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.strength-text {
+    font-size: 12px;
+    color: #777;
+    display: block;
+    text-align: right;
+}
+/* Botón de registro */
+.btn-register {
+    width: 100%;
+    padding: 14px;
+    background-color: #335435;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-register span {
+    position: relative;
+    z-index: 1;
+}
+
+.btn-register i {
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease;
+}
+
+.btn-register:hover {
+    background-color: #2a442b;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(51, 84, 53, 0.3);
+}
+
+.btn-register:hover i {
+    transform: translateX(3px);
+}
+
+.btn-register:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(51, 84, 53, 0.2);
+}
+
+/* Enlace de login */
+.login-link {
+    margin-top: 25px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.login-link a {
+    color: #335435;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.login-link a:hover {
+    color: #2a442b;
+    text-decoration: underline;
+}
+
+/* Ajustes adicionales para garantizar que todo sea accesible */
+@media (max-height: 800px) {
+    body {
+        height: auto;
+        align-items: flex-start;
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+    
+    .container {
+        margin: 10px 0 20px 0;
+    }
+    
+    .register-box {
+        margin-bottom: 20px;
+    }
+}
+
+/* Ajustes para dispositivos muy pequeños */
+@media (max-width: 400px) {
+    .register-box {
+        padding: 20px 15px;
+    }
+    
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="password"] {
+        padding: 10px 40px;
+        font-size: 14px;
+    }
+}

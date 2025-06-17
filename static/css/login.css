@@ -1,0 +1,457 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Variables CSS para mejor mantenimiento */
+:root {
+    --primary-color: #335435;
+    --primary-hover: #2a442b;
+    --bg-gradient-start: #f5f7fa;
+    --bg-gradient-end: #e4e8f0;
+    --shadow-light: rgba(0, 0, 0, 0.08);
+    --shadow-medium: rgba(0, 0, 0, 0.12);
+    --border-radius: 16px;
+    --input-border-radius: 10px;
+}
+
+/* Fondo con gradiente suave */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+    position: relative;
+    overflow-x: hidden;
+    padding: 10px;
+}
+
+/* Elementos decorativos de fondo - ajustados para móviles */
+body::before,
+body::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+body::before {
+    width: clamp(200px, 30vw, 300px);
+    height: clamp(200px, 30vw, 300px);
+    background: rgba(51, 84, 53, 0.05);
+    top: -10%;
+    right: -10%;
+}
+
+body::after {
+    width: clamp(150px, 25vw, 250px);
+    height: clamp(150px, 25vw, 250px);
+    background: rgba(51, 84, 53, 0.03);
+    bottom: -10%;
+    left: -10%;
+}
+
+/* Contenedor del login */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 450px;
+    padding: 15px;
+}
+
+/* Caja del login */
+.login-box {
+    background: #fff;
+    padding: clamp(25px, 5vw, 35px);
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 30px var(--shadow-light);
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.login-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px var(--shadow-medium);
+}
+
+/* Encabezado del login */
+.login-header {
+    text-align: center;
+    margin-bottom: clamp(20px, 4vw, 30px);
+}
+
+/* Logo */
+.logo img {
+    width: clamp(120px, 40vw, 180px);
+    height: auto;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+    transform: scale(1.02);
+}
+
+/* Título */
+h2 {
+    color: var(--primary-color);
+    font-size: clamp(22px, 5vw, 28px);
+    font-weight: 600;
+    margin-bottom: 5px;
+    position: relative;
+    display: inline-block;
+}
+
+h2::after {
+    content: "";
+    position: absolute;
+    width: 40%;
+    height: 3px;
+    background: var(--primary-color);
+    bottom: -8px;
+    left: 30%;
+    border-radius: 2px;
+}
+
+/* Alertas para mensajes flash */
+.alert {
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: clamp(13px, 3.5vw, 14px);
+    text-align: center;
+    word-wrap: break-word;
+}
+
+.alert-success {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: #4CAF50;
+    border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.alert-danger {
+    background-color: rgba(244, 67, 54, 0.1);
+    color: #F44336;
+    border: 1px solid rgba(244, 67, 54, 0.3);
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+}
+
+/* Grupos de input */
+.input-group {
+    position: relative;
+    margin-bottom: clamp(16px, 4vw, 20px);
+}
+
+/* Iconos para los inputs */
+.input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary-color);
+    opacity: 0.7;
+    font-size: clamp(14px, 3.5vw, 16px);
+    z-index: 2;
+}
+
+/* Inputs */
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: clamp(12px, 3vw, 15px) 45px;
+    border: 1px solid #e1e1e1;
+    border-radius: var(--input-border-radius);
+    font-size: clamp(14px, 3.5vw, 15px);
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(51, 84, 53, 0.15);
+    background-color: #fff;
+}
+
+/* Mostrar/ocultar contraseña */
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--primary-color);
+    opacity: 0.7;
+    transition: all 0.3s ease;
+    font-size: clamp(14px, 3.5vw, 16px);
+    z-index: 2;
+    padding: 5px;
+}
+
+.toggle-password:hover {
+    opacity: 1;
+}
+
+/* Recordarme y olvidé contraseña */
+.remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: clamp(20px, 4vw, 25px);
+    font-size: clamp(12px, 3vw, 14px);
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.remember-me input[type="checkbox"] {
+    margin-right: 8px;
+    accent-color: var(--primary-color);
+    width: 16px;
+    height: 16px;
+}
+
+.remember-me label {
+    cursor: pointer;
+    user-select: none;
+}
+
+.forgot-password {
+    text-align: right;
+}
+
+.forgot-password a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.forgot-password a:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
+}
+
+/* Botón de inicio de sesión */
+.btn-login {
+    width: 100%;
+    padding: clamp(12px, 3vw, 14px);
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: var(--input-border-radius);
+    font-size: clamp(14px, 3.5vw, 16px);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+    min-height: 48px; /* Mejor accesibilidad táctil */
+}
+
+.btn-login span {
+    position: relative;
+    z-index: 1;
+}
+
+.btn-login i {
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease;
+}
+
+.btn-login:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(51, 84, 53, 0.3);
+}
+
+.btn-login:hover i {
+    transform: translateX(3px);
+}
+
+.btn-login:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(51, 84, 53, 0.2);
+}
+
+/* Enlace de registro */
+.register-link {
+    margin-top: clamp(20px, 4vw, 25px);
+    font-size: clamp(12px, 3vw, 14px);
+    text-align: center;
+}
+
+.register-link a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.register-link a:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
+}
+
+/* Media Queries para diferentes dispositivos */
+
+/* Dispositivos muy pequeños (320px - 480px) */
+@media (max-width: 480px) {
+    body {
+        padding: 5px;
+    }
+    
+    .container {
+        padding: 10px;
+    }
+    
+    .login-box {
+        padding: 20px 15px;
+        border-radius: 12px;
+    }
+    
+    .remember-forgot {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .forgot-password {
+        text-align: left;
+        width: 100%;
+    }
+    
+    /* Ajuste para teclado virtual */
+    .login-box:focus-within {
+        transform: translateY(-10px);
+    }
+}
+
+/* Tablets en modo portrait (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+    .container {
+        max-width: 500px;
+    }
+    
+    .login-box {
+        padding: 30px 25px;
+    }
+}
+
+/* Tablets en modo landscape y desktop pequeño (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .container {
+        max-width: 450px;
+    }
+}
+
+/* Ajustes para dispositivos táctiles */
+@media (hover: none) and (pointer: coarse) {
+    .btn-login:hover {
+        transform: none;
+        background-color: var(--primary-color);
+    }
+    
+    .toggle-password {
+        padding: 10px;
+    }
+    
+    .remember-me input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* Modo paisaje en móviles */
+@media (max-height: 500px) and (orientation: landscape) {
+    body {
+        min-height: auto;
+        padding: 10px 0;
+    }
+    
+    .login-box {
+        padding: 15px 20px;
+    }
+    
+    .login-header {
+        margin-bottom: 15px;
+    }
+    
+    .logo img {
+        width: 100px;
+        margin-bottom: 8px;
+    }
+    
+    h2 {
+        font-size: 20px;
+        margin-bottom: 3px;
+    }
+    
+    .input-group {
+        margin-bottom: 12px;
+    }
+    
+    .remember-forgot {
+        margin-bottom: 15px;
+    }
+    
+    .register-link {
+        margin-top: 15px;
+    }
+}
+
+/* Alto contraste para accesibilidad */
+@media (prefers-contrast: high) {
+    input[type="email"],
+    input[type="password"] {
+        border: 2px solid #333;
+    }
+    
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(51, 84, 53, 0.3);
+    }
+}
+
+/* Reducir movimiento para usuarios sensibles */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .login-box:hover {
+        transform: none;
+    }
+    
+    .btn-login:hover {
+        transform: none;
+    }
+}

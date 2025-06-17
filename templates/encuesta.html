@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuesta de Satisfacción</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/encuesta.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="survey-box">
+            <div class="survey-header">
+                <!-- Logo -->
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+                </div>
+                <h2>Bienvenido/a {{ session['nombre'] }}</h2>
+                <h2>Encuesta de Satisfacción</h2>
+                <p class="subtitle">Ayúdanos a mejorar tu experiencia</p>
+            </div>
+            
+            <!-- Mensajes Flash para errores/éxitos -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <form action="{{ url_for('encuesta') }}" method="POST">
+                <div class="input-row">
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <select name="pais" id="pais" required>
+                            <option value="" disabled selected>Seleccione un país</option>
+                            <option value="Mexico">México</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <select name="sucursal" id="sucursal" required>
+                            <option value="" disabled selected>Seleccione una sucursal</option>
+                            <option value="San Rafael">San Rafael</option>
+                            <option value="Reforma">Reforma</option>
+                            <option value="Lomas Verdes">Lomas Verdes</option>
+                            <option value="Coyoacán">Coyoacán</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Pregunta 1: Calidad de la comida (Slider) - Actualizado -->
+                <div class="question-group">
+                    <label for="calidad_comida">De 1 al 10, ¿Qué tal estuvo su comida?</label>
+                    <div class="slider-container">
+                        <input type="range" id="calidad_comida" name="calidad_comida" min="1" max="10" value="5" class="slider" oninput="updateSliderValue(this)">
+                        <div class="slider-value" id="calidad_comida_value">5</div>
+                    </div>
+                    <div class="slider-labels">
+                        <span>1</span>
+                        <span>10</span>
+                    </div>
+                </div>
+                
+                <!-- Pregunta 2: Tiempo de espera (Botones Sí/No) -->
+                <div class="question-group">
+                    <label>¿El tiempo de espera fue adecuado?</label>
+                    <div class="radio-buttons">
+                        <label class="radio-container">
+                            <input type="radio" name="tiempo_espera" value="si" required>
+                            <span class="radio-button"><i class="fas fa-check"></i></span>
+                            <span class="radio-label">Sí</span>
+                        </label>
+                        <label class="radio-container">
+                            <input type="radio" name="tiempo_espera" value="no">
+                            <span class="radio-button"><i class="fas fa-times"></i></span>
+                            <span class="radio-label">No</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Pregunta 3: Atención del personal (Slider) - Actualizado -->
+                <div class="question-group">
+                    <label for="atencion_personal">De 1 al 10, ¿Qué tal fue la atención que recibió por parte del personal?</label>
+                    <div class="slider-container">
+                        <input type="range" id="atencion_personal" name="atencion_personal" min="1" max="10" value="5" class="slider" oninput="updateSliderValue(this)">
+                        <div class="slider-value" id="atencion_personal_value">5</div>
+                    </div>
+                    <div class="slider-labels">
+                        <span>1</span>
+                        <span>10</span>
+                    </div>
+                </div>
+                <!-- Pregunta 4: Agrado de la sucursal (Botones Sí/No) -->
+                <div class="question-group">
+                    <label>¿La sucursal que visitó, fue de su agrado?</label>
+                    <div class="radio-buttons">
+                        <label class="radio-container">
+                            <input type="radio" name="agrado_sucursal" value="si" required>
+                            <span class="radio-button"><i class="fas fa-check"></i></span>
+                            <span class="radio-label">Sí</span>
+                        </label>
+                        <label class="radio-container">
+                            <input type="radio" name="agrado_sucursal" value="no">
+                            <span class="radio-button"><i class="fas fa-times"></i></span>
+                            <span class="radio-label">No</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Pregunta 5: Volvería a visitar (Botones Sí/No) -->
+                <div class="question-group">
+                    <label>¿Nos volverías a visitar?</label>
+                    <div class="radio-buttons">
+                        <label class="radio-container">
+                            <input type="radio" name="volveria_visitar" value="si" required>
+                            <span class="radio-button"><i class="fas fa-check"></i></span>
+                            <span class="radio-label">Sí</span>
+                        </label>
+                        <label class="radio-container">
+                            <input type="radio" name="volveria_visitar" value="no">
+                            <span class="radio-button"><i class="fas fa-times"></i></span>
+                            <span class="radio-label">No</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Pregunta 6: Área de mejora (Textarea) -->
+                <div class="question-group">
+                    <label for="area_mejora">¿En qué podemos mejorar?</label>
+                    <div class="textarea-container">
+                        <textarea id="area_mejora" name="area_mejora" maxlength="200" placeholder="Escribe tus sugerencias aquí (máximo 200 caracteres)"></textarea>
+                        <div class="char-counter">
+                            <span id="charCount">0</span>/200
+                        </div>
+                    </div>
+                </div>
+                
+                                <!-- Pregunta 7: Calificación general (Estrellas Clickeables) -->
+                <div class="question-group">
+                    <label for="calificacion_general">En general, ¿Cuántas estrellas darías a tu experiencia?</label>
+                    <div class="stars-container">
+                        <input type="hidden" id="calificacion_general" name="calificacion_general" value="3">
+                        <div class="star-rating" id="star_rating">
+                            <i class="far fa-star" data-value="1"></i>
+                            <i class="far fa-star" data-value="2"></i>
+                            <i class="far fa-star" data-value="3"></i>
+                            <i class="far fa-star" data-value="4"></i>
+                            <i class="far fa-star" data-value="5"></i>
+                        </div>
+                    </div>
+                </div>
+
+                
+                {% if error %}
+                <div class="error-mensaje" style="color: red; text-align: center; margin-bottom: 15px;">
+                  {{ error }}
+                </div>
+                {% endif %}
+
+                <button type="submit" class="btn-submit">
+                    <span>Enviar Encuesta</span>
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Actualizar valor del slider
+        function updateSliderValue(slider) {
+            const valueDisplay = document.getElementById(slider.id + '_value');
+            valueDisplay.textContent = slider.value;
+        }
+        
+        // Actualizar calificación de estrellas
+        function updateStarRating(slider) {
+            const rating = parseInt(slider.value);
+            const stars = document.querySelectorAll('#star_rating i');
+            
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.className = 'fas fa-star'; // Estrella llena
+                } else {
+                    star.className = 'far fa-star'; // Estrella vacía
+                }
+            });
+        }
+        
+        // Contador de caracteres para el área de mejora
+        document.getElementById('area_mejora').addEventListener('input', function() {
+            const charCount = this.value.length;
+            document.getElementById('charCount').textContent = charCount;
+            
+            // Cambiar color cuando se acerca al límite
+            if (charCount > 180) {
+                document.getElementById('charCount').style.color = '#f44336';
+            } else {
+                document.getElementById('charCount').style.color = '';
+            }
+        });
+        document.addEventListener("DOMContentLoaded", function() {
+        const stars = document.querySelectorAll("#star_rating i");
+        const ratingInput = document.getElementById("calificacion_general");
+
+        stars.forEach(star => {
+            star.addEventListener("click", function() {
+                let rating = this.getAttribute("data-value");
+                ratingInput.value = rating; // Guardar la calificación en el input oculto
+                
+                // Actualizar visualmente las estrellas
+                stars.forEach((s, index) => {
+                    if (index < rating) {
+                        s.classList.remove("far");
+                        s.classList.add("fas"); // Estrella llena
+                    } else {
+                        s.classList.remove("fas");
+                        s.classList.add("far"); // Estrella vacía
+                    }
+                });
+            });
+        });
+    });
+    </script>
+</body>
+</html>

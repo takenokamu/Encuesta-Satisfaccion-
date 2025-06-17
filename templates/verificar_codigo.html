@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificación de Cuenta</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/verificar_codigo.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="verification-box">
+            <div class="verification-header">
+                <!-- Logo -->
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+                </div>
+                <h2>Verificación de Cuenta</h2>
+                <p class="subtitle">Ingresa el código que enviamos a tu correo electrónico</p>
+            </div>
+            
+            <!-- Mensajes Flash para errores/éxitos -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <!-- Mensaje de error -->
+            {% if error %}
+            <div class="alert alert-danger">
+                {{ error }}
+            </div>
+            {% endif %}
+            
+            <form method="POST" action="">
+                <div class="code-container">
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <input type="text" name="codigo" id="codigo" placeholder="Ingresa el código de verificación" maxlength="6" required>
+                    </div>
+                </div>
+                
+                <div class="info-text">
+                    <i class="fas fa-info-circle"></i>
+                    <span>El código expirará en 15 minutos</span>
+                </div>
+                
+                <button type="submit" class="btn-verify">
+                    <span>Verificar Código</span>
+                    <i class="fas fa-check-circle"></i>
+                </button>
+                                        <!-- Añadir esto en tu plantilla verificar_codigo.html -->
+
+            </form>
+        {% if mensaje %}
+            {% if verificado %}
+            <div class="success-message" style="color: green; text-align: center; margin-bottom: 15px;">
+                {{ mensaje }}
+                <script>
+                    setTimeout(function() {
+                        window.location.href = "{{ url_for('login') }}";
+                    }, 3000); // Redirige en 3 segundos
+                </script>
+            </div>
+            {% else %}
+            <div class="error-message" style="color: red; text-align: center; margin-bottom: 15px;">
+                {{ mensaje }}
+            </div>
+            {% endif %}
+        {% endif %}
+
+
+            <div class="return-link">
+                <a href="{{ url_for('login') }}">
+                    <i class="fas fa-arrow-left"></i> Volver al inicio de sesión
+                </a>
+            </div>
+            <div class="resend-link">
+                <a href="{{ url_for('verificar_codigo', reenviar='true') }}" id="resendCode">
+                    <i class="fas fa-sync-alt"></i> Reenviar código de verificación
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto focus y formateo del código
+        document.addEventListener('DOMContentLoaded', function() {
+            const codigoInput = document.getElementById('codigo');
+            codigoInput.focus();
+            
+            // Formatear para permitir solo números
+            codigoInput.addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+            
+                    // Contador para el reenvío de código
+                    document.addEventListener('DOMContentLoaded', function() {
+                    const codigoInput = document.getElementById('codigo');
+                    codigoInput.focus();
+                    
+                    // Formatear para permitir solo números
+                    codigoInput.addEventListener('input', function() {
+                        this.value = this.value.replace(/[^0-9]/g, '');
+                    });
+                    
+                    // Contador para el reenvío de código
+                    let countdownTimer;
+                    const resendLink = document.getElementById('resendCode');
+                    
+                    if (resendLink) {
+                        resendLink.addEventListener('click', function(e) {
+                            // No prevenimos el evento predeterminado para permitir que siga el enlace
+                            // pero guardamos el estado en localStorage
+                            
+                            // Si ya hay un contador activo, evitamos múltiples reenvíos
+                            if (localStorage.getItem('resendTime') && 
+                                parseInt(localStorage.getItem('resendTime')) > Math.floor(Date.now() / 1000)) {
+                                e.preventDefault();
+                                return;
+                            }
+                            
+                            // Establecer tiempo límite (600 segundos desde ahora)
+                            const expiryTime = Math.floor(Date.now() / 1000) + 600;
+                            localStorage.setItem('resendTime', expiryTime);
+                            
+                            // Iniciar contador inmediatamente después de hacer clic
+                            startResendTimer();
+                        });
+                        
+                        // Verificar si hay un temporizador activo al cargar la página
+                        startResendTimer();
+                    }
+                    
+                    function startResendTimer() {
+                        const resendLink = document.getElementById('resendCode');
+                        const storedTime = localStorage.getItem('resendTime');
+                        
+                        if (storedTime) {
+                            const currentTime = Math.floor(Date.now() / 1000);
+                            let remainingTime = parseInt(storedTime) - currentTime;
+                            
+                            if (remainingTime > 0) {
+                                // Deshabilitar el enlace temporalmente
+                                resendLink.style.pointerEvents = 'none';
+                                resendLink.style.opacity = '0.6';
+                                
+                                // Mostrar tiempo restante
+                                resendLink.innerHTML = `<i class="fas fa-sync-alt"></i> Reenviar código (${remainingTime}s)`;
+                                
+                                // Actualizar cada segundo
+                                const timerInterval = setInterval(() => {
+                                    remainingTime--;
+                                    resendLink.innerHTML = `<i class="fas fa-sync-alt"></i> Reenviar código (${remainingTime}s)`;
+                                    
+                                    if (remainingTime <= 0) {
+                                        clearInterval(timerInterval);
+                                        resendLink.innerHTML = `<i class="fas fa-sync-alt"></i> Reenviar código`;
+                                        resendLink.style.pointerEvents = 'auto';
+                                        resendLink.style.opacity = '1';
+                                        localStorage.removeItem('resendTime');
+                                    }
+                                }, 1000);
+                            }
+                        }
+                    }
+                });
+            });
+            
+    </script>
+</body>
+</html>

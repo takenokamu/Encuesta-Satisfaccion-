@@ -1,0 +1,328 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Fondo con gradiente suave */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+    background-attachment: fixed;
+    position: relative;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* Elementos decorativos de fondo */
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+body::before {
+    background: rgba(51, 84, 53, 0.05);
+    top: -100px;
+    right: -100px;
+}
+
+body::after {
+    background: rgba(51, 84, 53, 0.03);
+    bottom: -100px;
+    left: -100px;
+}
+
+/* Contenedor de verificación */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 450px;
+    margin: 20px 0;
+}
+
+/* Caja de verificación */
+.verification-box {
+    background: #fff;
+    padding: 35px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.verification-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* Encabezado de verificación */
+.verification-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Logo */
+.logo img {
+    width: 160px;
+    height: auto;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+    transform: scale(1.05);
+}
+
+/* Título */
+h2 {
+    color: #335435;
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    position: relative;
+    display: inline-block;
+}
+
+h2::after {
+    content: "";
+    position: absolute;
+    width: 40%;
+    height: 3px;
+    background: #335435;
+    bottom: -8px;
+    left: 30%;
+    border-radius: 2px;
+}
+
+/* Subtítulo */
+.subtitle {
+    color: #777;
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+/* Alertas para mensajes de error */
+.alert {
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.alert-danger {
+    background-color: rgba(244, 67, 54, 0.1);
+    color: #F44336;
+    border: 1px solid rgba(244, 67, 54, 0.3);
+}
+
+.alert-success {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: #4CAF50;
+    border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+/* Contenedor del código */
+.code-container {
+    margin-bottom: 15px;
+}
+
+/* Grupo de input */
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+/* Icono para el input */
+.input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #335435;
+    opacity: 0.7;
+}
+
+/* Input del código */
+input[type="text"] {
+    width: 100%;
+    padding: 15px 45px;
+    border: 1px solid #e1e1e1;
+    border-radius: 10px;
+    font-size: 18px;
+    letter-spacing: 2px;
+    text-align: center;
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
+    font-weight: 500;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #335435;
+    box-shadow: 0 0 0 3px rgba(51, 84, 53, 0.15);
+    background-color: #fff;
+}
+
+/* Texto informativo */
+.info-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 25px;
+    color: #666;
+    font-size: 13px;
+}
+
+.info-text i {
+    color: #335435;
+}
+
+/* Botón de verificación */
+.btn-verify {
+    width: 100%;
+    padding: 14px;
+    background-color: #335435;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-verify span {
+    position: relative;
+    z-index: 1;
+}
+
+.btn-verify i {
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease;
+}
+
+.btn-verify:hover {
+    background-color: #2a442b;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(51, 84, 53, 0.3);
+}
+
+.btn-verify:hover i {
+    transform: scale(1.2);
+}
+
+.btn-verify:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(51, 84, 53, 0.2);
+}
+
+/* Enlace para reenviar código */
+.resend-link {
+    margin-top: 25px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.resend-link a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #335435;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 10px 15px;
+    border-radius: 8px;
+    background-color: rgba(51, 84, 53, 0.1);
+    transition: all 0.3s ease;
+}
+
+.resend-link a:hover {
+    background-color: rgba(51, 84, 53, 0.2);
+    transform: translateY(-2px);
+}
+
+.resend-link a:active {
+    transform: translateY(0);
+}
+
+.resend-link a i {
+    font-size: 14px;
+}
+
+/* Enlace para volver al login */
+.return-link {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.return-link a {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #666;
+    text-decoration: none;
+    font-size: 13px;
+    transition: all 0.2s ease;
+}
+
+.return-link a:hover {
+    color: #335435;
+}
+
+.return-link i {
+    font-size: 12px;
+}
+
+/* Animación de pulso para el botón */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(51, 84, 53, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(51, 84, 53, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(51, 84, 53, 0);
+    }
+}
+
+.btn-verify:focus {
+    animation: pulse 1.5s infinite;
+}
+
+/* Responsivo */
+@media (max-width: 480px) {
+    .verification-box {
+        padding: 25px 20px;
+    }
+    
+    h2 {
+        font-size: 22px;
+    }
+    
+    input[type="text"] {
+        padding: 12px 40px;
+        font-size: 16px;
+    }
+}

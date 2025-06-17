@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva Contraseña</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            <div class="login-header">
+                <!-- Logo -->
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+                </div>
+                <h2>Nueva Contraseña</h2>
+            </div>
+            
+            <!-- Mensajes de error -->
+            {% if error %}
+                <div class="alert alert-danger">
+                    {{ error }}
+                </div>
+            {% endif %}
+            
+            <p class="recovery-instructions">Establece tu nueva contraseña</p>
+            
+            <form action="{{ url_for('nueva_contrasena') }}" method="POST" id="passwordForm">
+                <div class="input-group">
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <input type="password" name="nueva_contrasena" id="nueva_contrasena" placeholder="Nueva Contraseña" required>
+                    <div class="toggle-password">
+                        <i class="fas fa-eye" id="togglePassword1"></i>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <input type="password" name="confirmar_contrasena" id="confirmar_contrasena" placeholder="Confirmar Contraseña" required>
+                    <div class="toggle-password">
+                        <i class="fas fa-eye" id="togglePassword2"></i>
+                    </div>
+                </div>
+                
+                <div class="password-strength">
+                    <div class="strength-meter">
+                        <div class="strength-meter-fill" id="strength-meter-fill"></div>
+                    </div>
+                    <small id="passwordHelpText">La contraseña debe tener al menos 8 caracteres</small>
+                </div>
+                
+                <button type="submit" class="btn-login">
+                    <span>Guardar Contraseña</span>
+                    <i class="fas fa-save"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <style>
+        .recovery-instructions {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .password-strength {
+            margin-bottom: 20px;
+        }
+        
+        .strength-meter {
+            height: 4px;
+            background-color: #e1e1e1;
+            border-radius: 2px;
+            margin-bottom: 8px;
+            overflow: hidden;
+        }
+        
+        .strength-meter-fill {
+            height: 100%;
+            width: 0;
+            transition: width 0.3s ease, background-color 0.3s ease;
+            background-color: #dadada;
+        }
+        
+        #passwordHelpText {
+            color: #666;
+            font-size: 12px;
+        }
+    </style>
+
+    <script>
+        // Toggle para mostrar/ocultar contraseña
+        document.getElementById('togglePassword1').addEventListener('click', function() {
+            const password = document.getElementById('nueva_contrasena');
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+        
+        document.getElementById('togglePassword2').addEventListener('click', function() {
+            const password = document.getElementById('confirmar_contrasena');
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+        
+        // Verificar fortaleza de contraseña
+        document.getElementById('nueva_contrasena').addEventListener('input', function() {
+            const password = this.value;
+            const meter = document.getElementById('strength-meter-fill');
+            const helpText = document.getElementById('passwordHelpText');
+            
+            // Criterios básicos para la fortaleza de la contraseña
+            const hasMinimumLength = password.length >= 8;
+            const hasLowerCase = /[a-z]/.test(password);
+            const hasUpperCase = /[A-Z]/.test(password);
+            const hasNumber = /\d/.test(password);
+            const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+            
+            // Calcular puntuación
+            let strength = 0;
+            if (hasMinimumLength) strength += 1;
+            if (hasLowerCase) strength += 1;
+            if (hasUpperCase) strength += 1;
+            if (hasNumber) strength += 1;
+            if (hasSpecialChar) strength += 1;
+            
+            // Actualizar indicador visual
+            const width = (strength / 5) * 100;
+            meter.style.width = width + '%';
+            
+            // Establecer color según fortaleza
+            if (width <= 20) {
+                meter.style.backgroundColor = '#f44336'; // rojo
+                helpText.textContent = 'Contraseña muy débil';
+            } else if (width <= 40) {
+                meter.style.backgroundColor = '#ff9800'; // naranja
+                helpText.textContent = 'Contraseña débil';
+            } else if (width <= 60) {
+                meter.style.backgroundColor = '#ffeb3b'; // amarillo
+                helpText.textContent = 'Contraseña moderada';
+            } else if (width <= 80) {
+                meter.style.backgroundColor = '#8bc34a'; // verde claro
+                helpText.textContent = 'Contraseña fuerte';
+            } else {
+                meter.style.backgroundColor = '#4caf50'; // verde
+                helpText.textContent = 'Contraseña muy fuerte';
+            }
+        });
+        
+        // Validar que las contraseñas coincidan
+        document.getElementById('passwordForm').addEventListener('submit', function(e) {
+            const password = document.getElementById('nueva_contrasena').value;
+            const confirmPassword = document.getElementById('confirmar_contrasena').value;
+            
+            if (password !== confirmPassword) {
+                e.preventDefault();
+                alert('Las contraseñas no coinciden');
+            }
+        });
+    </script>
+</body>
+</html>
