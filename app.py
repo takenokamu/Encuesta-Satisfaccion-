@@ -52,7 +52,7 @@ def obtener_o_generar_clave():
         clave = Fernet.generate_key()
         with open(ARCHIVO_CLAVE, 'wb') as f:
             f.write(clave)
-        print(f"⚠️ Clave de encriptación generada y guardada en {ARCHIVO_CLAVE}. Guarda este archivo en un lugar seguro.")
+        print(f"Clave de encriptación generada y guardada en {ARCHIVO_CLAVE}. Guarda este archivo en un lugar seguro.")
     
     # Se retorna la clave (ya sea cargada o recién generada)
     return clave
@@ -129,18 +129,18 @@ app = Flask(__name__)
 
 # Clave secreta para manejar sesiones y tokens. 
 # Se obtiene de variables de entorno por seguridad, con un valor por defecto en caso de que no exista
-app.secret_key = os.environ.get('SECRET_KEY', '5mcJAvC298$7')
+app.secret_key = os.environ.get('SECRET_KEY', 'incluir_clave_propia')
 
 # Configuración de conexión a MySQL usando variables de entorno.
 # Esto permite proteger credenciales sensibles y facilitar despliegue en distintos entornos (desarrollo, producción, etc.)
 app.config['MYSQL_HOST'] = os.environ.get('MYSQL_HOST', 'localhost')
 app.config['MYSQL_USER'] = os.environ.get('MYSQL_USER', 'root')
-app.config['MYSQL_PASSWORD'] = os.environ.get('MYSQL_PASSWORD', 'Ericko11$')
-app.config['MYSQL_DB'] = os.environ.get('MYSQL_DB', 'encuestas_db')
+app.config['MYSQL_PASSWORD'] = os.environ.get('MYSQL_PASSWORD', 'contraseña_sql')
+app.config['MYSQL_DB'] = os.environ.get('MYSQL_DB', 'nombre_db')
 
 # Configuración del correo emisor para el envío de emails (verificación, recuperación, etc.)
-EMAIL_SENDER = os.environ.get('EMAIL_SENDER', 'takenokamu@gmail.com')
-EMAIL_PASSWORD = os.environ.get('EMAIL_PASSWORD', 'kcdvjijtgcsucvmb')
+EMAIL_SENDER = os.environ.get('EMAIL_SENDER', 'correo_gmail')
+EMAIL_PASSWORD = os.environ.get('EMAIL_PASSWORD', 'clave_gmail')
 
 # Inicializa la extensión MySQL con la configuración anterior
 mysql = MySQL(app)
