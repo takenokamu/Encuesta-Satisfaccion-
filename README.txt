@@ -120,9 +120,9 @@ Tus datos están protegidos mediante protocolos de seguridad estándar y solo se
 
 9. Créditos y agradecimientos
 
-Backend & Base de Datos: Adrián Emmanuel Allard Hernández
+Base de Datos: Adrián Emmanuel Allard Hernández
 
-Frontend: Carlos Gael Gutiérrez Flores
+Frontend & Backend: Carlos Gael Gutiérrez Flores
 
 Diseño: Arantza Sánchez Ramírez
 
